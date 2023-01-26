@@ -1,4 +1,5 @@
 defmodule SlacloneWeb.Router do
+  alias SlacloneWeb.UserLive
   use SlacloneWeb, :router
 
   pipeline :browser do
@@ -18,6 +19,16 @@ defmodule SlacloneWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/workspace", SpaceLive.Index, :index
+
+    live "/room", RoomLive.Index, :index
+    live "/room/:id/edit", RoomLive.Index, :edit
+    live "/room/new", RoomLive.Index, :new
+
+    live "/user", UserLive.Index, :index
+    live "/user/:id/edit", UserLive.Index, :edit
+    live "/user/new", UserLive.Index, :new
   end
 
   # Other scopes may use custom stacks.
