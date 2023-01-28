@@ -11,6 +11,16 @@ defmodule Slaclone.Accounts do
   ## Database getters
 
   @doc """
+  Gets all users in the database
+
+  ## Examples
+
+    iex> list_users()
+    %User{}
+  """
+  def list_users, do: Repo.all(User)
+
+  @doc """
   Gets a user by username.
 
   ## Examples
