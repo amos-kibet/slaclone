@@ -1,0 +1,40 @@
+<.header>
+  Listing Rooms
+  <:actions>
+    <.link patch={~p"/rooms/new"}>
+      <.button>New Room</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="rooms" rows={@rooms} row_click={&JS.navigate(~p"/rooms/#{&1}")}>
+  <:col :let={room} label="Name"><%= room.name %></:col>
+  <:col :let={room} label="Description"><%= room.description %></:col>
+  <:action :let={room}>
+    <div class="sr-only">
+      <.link navigate={~p"/rooms/#{room}"}>Show</.link>
+    </div>
+    <.link patch={~p"/rooms/#{room}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={room}>
+    <.link phx-click={JS.push("delete", value: %{id: room.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="room-modal"
+  show
+  on_cancel={JS.navigate(~p"/rooms")}
+>
+  <.live_component
+    module={SlacloneWeb.RoomLive.FormComponent}
+    id={@room.id || :new}
+    title={@page_title}
+    action={@live_action}
+    room={@room}
+    navigate={~p"/rooms"}
+  />
+</.modal>
