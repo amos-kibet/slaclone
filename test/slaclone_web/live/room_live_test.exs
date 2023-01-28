@@ -5,8 +5,6 @@ defmodule SlacloneWeb.RoomLiveTest do
   import Slaclone.ChannelFixtures
   import Slaclone.AccountsFixtures
 
-  alias Slaclone.Accounts
-
   @create_attrs %{description: "some description", name: "some name"}
   @update_attrs %{description: "some updated description", name: "some updated name"}
   @invalid_attrs %{description: nil, name: nil}
