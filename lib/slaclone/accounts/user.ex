@@ -38,15 +38,15 @@ defmodule Slaclone.Accounts.User do
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:username, :email, :password])
-    |> validate_username(opts)
+    |> validate_username()
     |> validate_email(opts)
     |> validate_password(opts)
   end
 
-  def validate_username(changeset, opts) do
+  def validate_username(changeset) do
     changeset
     |> validate_required([:username])
-    |> maybe_validate_unique_username(opts)
+    |> unique_constraint(:username)
   end
 
   defp validate_email(changeset, opts) do
@@ -77,15 +77,6 @@ defmodule Slaclone.Accounts.User do
       |> validate_length(:password, max: 72, count: :bytes)
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
-    else
-      changeset
-    end
-  end
-
-  defp maybe_validate_unique_username(changeset, opts) do
-    if Keyword.get(opts, :validate_username, true) do
-      changeset
-      |> unique_constraint(:username)
     else
       changeset
     end
