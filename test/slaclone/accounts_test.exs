@@ -54,7 +54,8 @@ defmodule Slaclone.AccountsTest do
 
       assert %{
                password: ["can't be blank"],
-               email: ["can't be blank"]
+               email: ["can't be blank"],
+               username: ["can't be blank"]
              } = errors_on(changeset)
     end
 
@@ -101,16 +102,18 @@ defmodule Slaclone.AccountsTest do
     end
 
     test "allows fields to be set" do
+      username = unique_username()
       email = unique_user_email()
       password = valid_user_password()
 
       changeset =
         Accounts.change_user_registration(
           %User{},
-          valid_user_attributes(email: email, password: password)
+          valid_user_attributes(username: username, email: email, password: password)
         )
 
       assert changeset.valid?
+      assert get_change(changeset, :username) == username
       assert get_change(changeset, :email) == email
       assert get_change(changeset, :password) == password
       assert is_nil(get_change(changeset, :hashed_password))
@@ -267,7 +270,7 @@ defmodule Slaclone.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 4 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -476,7 +479,7 @@ defmodule Slaclone.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 4 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -502,7 +505,7 @@ defmodule Slaclone.AccountsTest do
 
   describe "inspect/2 for the User module" do
     test "does not include password" do
-      refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
+      refute inspect(%User{password: "1234"}) =~ "password: \"1234\""
     end
   end
 end

@@ -32,7 +32,7 @@ defmodule SlacloneWeb.UserRegistrationLiveTest do
 
       assert result =~ "Register"
       assert result =~ "must have the @ sign and no spaces"
-      assert result =~ "should be at least 12 character"
+      assert result =~ "should be at least 4 character"
     end
   end
 
@@ -40,8 +40,14 @@ defmodule SlacloneWeb.UserRegistrationLiveTest do
     test "creates account and logs the user in", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
+      username = unique_username()
       email = unique_user_email()
-      form = form(lv, "#registration_form", user: valid_user_attributes(email: email))
+
+      form =
+        form(lv, "#registration_form",
+          user: valid_user_attributes(username: username, email: email)
+        )
+
       render_submit(form)
       conn = follow_trigger_action(form, conn)
 
@@ -50,6 +56,7 @@ defmodule SlacloneWeb.UserRegistrationLiveTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
+      assert response =~ username
       assert response =~ email
       assert response =~ "Settings"
       assert response =~ "Log out"
