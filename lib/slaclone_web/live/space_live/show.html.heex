@@ -14,7 +14,12 @@
 
 <.back navigate={~p"/workspace"}>Back to workspace</.back>
 
-<.modal :if={@live_action == :edit} id="space-modal" show on_cancel={JS.patch(~p"/workspace/#{@space}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="space-modal"
+  show
+  on_cancel={JS.patch(~p"/workspace/#{@space}")}
+>
   <.live_component
     module={SlacloneWeb.SpaceLive.FormComponent}
     id={@space.id}
