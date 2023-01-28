@@ -43,7 +43,7 @@ defmodule SlacloneWeb.UserResetPasswordLiveTest do
           user: %{"password" => "secret12", "confirmation_password" => "secret123456"}
         )
 
-      assert result =~ "should be at least 12 character"
+      assert result =~ "should be at least 4 character"
       assert result =~ "does not match password"
     end
   end
@@ -82,7 +82,7 @@ defmodule SlacloneWeb.UserResetPasswordLiveTest do
         |> render_submit()
 
       assert result =~ "Reset Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "should be at least 4 character(s)"
       assert result =~ "does not match password"
     end
   end
