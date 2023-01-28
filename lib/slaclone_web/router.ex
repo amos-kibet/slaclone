@@ -69,12 +69,21 @@ defmodule SlacloneWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
+      # Channel routes
       live "/rooms", RoomLive.Index, :index
       live "/rooms/new", RoomLive.Index, :new
       live "/rooms/:id/edit", RoomLive.Index, :edit
 
       live "/rooms/:id", RoomLive.Show, :show
       live "/rooms/:id/show/edit", RoomLive.Show, :edit
+
+      # Workspace routes
+      live "/workspace", SpaceLive.Index, :index
+      live "/workspace/new", SpaceLive.Index, :new
+      live "/workspace/:id/edit", SpaceLive.Index, :edit
+
+      live "/workspace/:id", SpaceLive.Show, :show
+      live "/workspace/:id/show/edit", SpaceLive.Show, :edit
     end
   end
 
