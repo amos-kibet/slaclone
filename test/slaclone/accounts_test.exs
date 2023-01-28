@@ -60,11 +60,11 @@ defmodule Slaclone.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "123"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               password: ["should be at least 12 character(s)"]
+               password: ["should be at least 4 character(s)"]
              } = errors_on(changeset)
     end
 
@@ -265,8 +265,8 @@ defmodule Slaclone.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "not valid",
-          password_confirmation: "another"
+          password: "123",
+          password_confirmation: "12"
         })
 
       assert %{
@@ -474,8 +474,8 @@ defmodule Slaclone.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.reset_user_password(user, %{
-          password: "not valid",
-          password_confirmation: "another"
+          password: "123",
+          password_confirmation: "12"
         })
 
       assert %{
