@@ -125,9 +125,9 @@ defmodule SlacloneWeb.UserSettingsLiveTest do
         lv
         |> element("#password_form")
         |> render_change(%{
-          "current_password" => "invalid",
+          "current_password" => "123",
           "user" => %{
-            "password" => "too short",
+            "password" => "12",
             "password_confirmation" => "does not match"
           }
         })
@@ -143,9 +143,9 @@ defmodule SlacloneWeb.UserSettingsLiveTest do
       result =
         lv
         |> form("#password_form", %{
-          "current_password" => "invalid",
+          "current_password" => "123",
           "user" => %{
-            "password" => "too short",
+            "password" => "12",
             "password_confirmation" => "does not match"
           }
         })

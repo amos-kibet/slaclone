@@ -39,9 +39,7 @@ defmodule SlacloneWeb.UserResetPasswordLiveTest do
       result =
         lv
         |> element("#reset_password_form")
-        |> render_change(
-          user: %{"password" => "secret12", "confirmation_password" => "secret123456"}
-        )
+        |> render_change(user: %{"password" => "123", "confirmation_password" => "secret123456"})
 
       assert result =~ "should be at least 4 character"
       assert result =~ "does not match password"
@@ -75,7 +73,7 @@ defmodule SlacloneWeb.UserResetPasswordLiveTest do
         lv
         |> form("#reset_password_form",
           user: %{
-            "password" => "too short",
+            "password" => "123",
             "password_confirmation" => "does not match"
           }
         )

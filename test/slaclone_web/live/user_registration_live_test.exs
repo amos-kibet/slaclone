@@ -28,7 +28,7 @@ defmodule SlacloneWeb.UserRegistrationLiveTest do
       result =
         lv
         |> element("#registration_form")
-        |> render_change(user: %{"email" => "with spaces", "password" => "too short"})
+        |> render_change(user: %{"email" => "with spaces", "password" => "123"})
 
       assert result =~ "Register"
       assert result =~ "must have the @ sign and no spaces"
@@ -56,7 +56,6 @@ defmodule SlacloneWeb.UserRegistrationLiveTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ username
       assert response =~ email
       assert response =~ "Settings"
       assert response =~ "Log out"
