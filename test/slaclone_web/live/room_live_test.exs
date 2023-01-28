@@ -3,10 +3,19 @@ defmodule SlacloneWeb.RoomLiveTest do
 
   import Phoenix.LiveViewTest
   import Slaclone.ChannelFixtures
+  import Slaclone.AccountsFixtures
+
+  alias Slaclone.Accounts
 
   @create_attrs %{description: "some description", name: "some name"}
   @update_attrs %{description: "some updated description", name: "some updated name"}
   @invalid_attrs %{description: nil, name: nil}
+
+  setup %{conn: conn} do
+    password = valid_user_password()
+    user = user_fixture(%{password: password})
+    %{conn: log_in_user(conn, user), user: user, password: password}
+  end
 
   defp create_room(_) do
     room = room_fixture()

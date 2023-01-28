@@ -3,10 +3,17 @@ defmodule SlacloneWeb.SpaceLiveTest do
 
   import Phoenix.LiveViewTest
   import Slaclone.WorkspaceFixtures
+  import Slaclone.AccountsFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
+
+  setup %{conn: conn} do
+    password = valid_user_password()
+    user = user_fixture(%{password: password})
+    %{conn: log_in_user(conn, user), user: user, password: password}
+  end
 
   defp create_space(_) do
     space = space_fixture()
