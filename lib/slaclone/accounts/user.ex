@@ -2,15 +2,20 @@ defmodule Slaclone.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @roles ["admin", "ordinary_user"]
+
   schema "users" do
     field :username, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :role, :string, default: "user"
 
     timestamps()
   end
+
+
 
   @doc """
   A user changeset for registration.
@@ -35,12 +40,32 @@ defmodule Slaclone.Accounts.User do
       submitting the form), this option can be set to `false`.
       Defaults to `true`.
   """
+
+  def roles do
+    @roles
+  end
+
+  # @doc “””
+  # A user changeset for registering admins.
+  # “””
+  def admin_registration_changeset(user, attrs) do
+    user
+    |> registration_changeset(attrs)
+    |> prepare_changes(&set_admin_role/1)
+  end
+
+  defp set_admin_role(changeset) do
+    changeset
+    |> put_change(:role, :admin)
+  end
+
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:username, :email, :password])
+    |> cast(attrs, [:username, :email, :password, :role])
     |> validate_username()
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_inclusion(:role, @roles)
   end
 
   def validate_username(changeset) do
