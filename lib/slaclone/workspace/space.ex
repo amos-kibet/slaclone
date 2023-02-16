@@ -19,7 +19,7 @@ defmodule Slaclone.Workspace.Space do
   @doc false
   def changeset(space, attrs) do
     space
-    |> cast(attrs, [:name, :users_id, :room_id, :avatars_id])
+    |> cast(attrs, [:name])
     |> validate_required([:name])
   end
 end
