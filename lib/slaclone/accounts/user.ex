@@ -2,12 +2,21 @@ defmodule Slaclone.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Slaclone.Avatar
+  alias Slaclone.Channel.Room
+  alias Slaclone.Workspace.Space
+
   schema "users" do
     field :username, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+
+    has_one :avatars, Avatar
+    belongs_to :workspace, Space
+    # TODO: read more on the below association
+    many_to_many :rooms, Room, join_through: "users_rooms", on_delete: :delete_all
 
     timestamps()
   end
@@ -37,7 +46,7 @@ defmodule Slaclone.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:username, :email, :password])
+    |> cast(attrs, [:username, :email, :password, :workspace_id])
     |> validate_username()
     |> validate_email(opts)
     |> validate_password(opts)
